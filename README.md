@@ -23,7 +23,7 @@ A PyTorch implementation of a Spiking Neural Network (SNN) based on ResNet-18 ar
 pip install torch torchvision spikingjelly
 
 
-
+## Model Structure
 SpikingResNet18(
   (conv1): Conv2d(3, 64, kernel_size=(7, 7), stride=(2, 2), padding=(3, 3), bias=False)
   (bn1): BatchNorm2d(64)
