@@ -19,13 +19,34 @@ A PyTorch implementation of a Spiking Neural Network (SNN) based on ResNet-18 ar
 - torchvision
 
 ## Model Structure
+
+The Spiking ResNet-18 architecture combines traditional ResNet-18 components with spiking neuron layers. Here's the detailed structure:
+
+```python
 SpikingResNet18(
- - (conv1): Conv2d(3, 64, kernel_size=(7, 7), stride=(2, 2), padding=(3, 3), bias=False)
- - (bn1): BatchNorm2d(64)
- - (sn1): LIFNode()
+  (conv1): Conv2d(3, 64, kernel_size=(7, 7), stride=(2, 2), padding=(3, 3), bias=False)
+  (bn1): BatchNorm2d(64)
+  (sn1): LIFNode(
+    v_threshold=1.0, v_reset=0.0, 
+    surrogate_function=ATan(), detach_reset=True
+  )
   (maxpool): MaxPool2d(kernel_size=3, stride=2, padding=1)
-  ... # ResNet-18 layers
+  (layer1-4): Sequential(
+    # Residual Blocks with Spiking Neurons
+    (0-1): BasicBlock(
+      (conv1): Conv2d(...)
+      (bn1): BatchNorm2d(...)
+      (sn1): LIFNode(...)
+      (conv2): Conv2d(...)
+      (bn2): BatchNorm2d(...)
+      (sn2): LIFNode(...)
+      (downsample): Sequential(...)  # When needed
+    )
+    ...
+  )
+  (avgpool): AdaptiveAvgPool2d(output_size=(1, 1))
   (fc): Linear(in_features=512, out_features=10, bias=False)
+  (sn_out): LIFNode(...)
 )
 
 
